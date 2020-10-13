@@ -2,13 +2,10 @@
 	"_copyright": "Copyright (C) 2012 - 2013, Digium, Inc.",
 	"_author": "David M. Lee, II <dlee@digium.com>",
 	"_svn_revision": "$Revision$",
-	"apiVersion": "2.0.0",
+	"apiVersion": "1.7.0",
 	"swaggerVersion": "1.2",
 	"basePath": "http://localhost:8088/ari",
 	"resourcePath": "/api-docs/events.{format}",
-	"requiresModules": [
-		"res_http_websocket"
-	],
 	"apis": [
 		{
 			"path": "/events",
@@ -113,11 +110,6 @@
 					"type": "string",
 					"required": true,
 					"description": "Indicates the type of this message."
-				},
-				"asterisk_id": {
-					"type": "string",
-					"required": false,
-					"description": "The unique ID for the Asterisk instance that raised this event."
 				}
 			},
 			"subTypes": [
@@ -148,7 +140,7 @@
 				"timestamp": {
 					"type": "Date",
 					"description": "Time at which this event was created.",
-					"required": true
+					"required": false
 				}
 			},
 			"subTypes": [
@@ -159,14 +151,12 @@
 				"RecordingStarted",
 				"RecordingFinished",
 				"RecordingFailed",
-				"ApplicationMoveFailed",
 				"ApplicationReplaced",
 				"BridgeCreated",
 				"BridgeDestroyed",
 				"BridgeMerged",
 				"BridgeBlindTransfer",
 				"BridgeAttendedTransfer",
-				"BridgeVideoSourceChanged",
 				"ChannelCreated",
 				"ChannelDestroyed",
 				"ChannelEnteredBridge",
@@ -211,7 +201,7 @@
 							"Unreachable",
 							"Reachable",
 							"Unknown",
-							"NonQualified",
+							"Created",
 							"Removed"
 						]
 					}
@@ -336,25 +326,6 @@
 				}
 			}
 		},
-		"ApplicationMoveFailed": {
-			"id": "ApplicationMoveFailed",
-			"description": "Notification that trying to move a channel to another Stasis application failed.",
-			"properties": {
-				"channel": {
-					"required": true,
-					"type": "Channel"
-				},
-				"destination": {
-					"required": true,
-					"type": "string"
-				},
-				"args": {
-					"required": true,
-					"type": "List[string]",
-					"description": "Arguments to the application"
-				}
-			}
-		},
 		"ApplicationReplaced": {
 			"id": "ApplicationReplaced",
 			"description": "Notification that another WebSocket has taken over for an application.\n\nAn application may only be subscribed to by a single WebSocket at a time. If multiple WebSockets attempt to subscribe to the same application, the newer WebSocket wins, and the older one receives this event.",
@@ -391,20 +362,6 @@
 				"bridge_from": {
 					"required": true,
 					"type": "Bridge"
-				}
-			}
-		},
-		"BridgeVideoSourceChanged": {
-			"id": "BridgeVideoSourceChanged",
-			"description": "Notification that the source of video in a bridge has changed.",
-			"properties": {
-				"bridge": {
-					"required": true,
-					"type": "Bridge"
-				},
-				"old_video_source_id": {
-					"required": false,
-					"type": "string"
 				}
 			}
 		},
